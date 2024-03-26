@@ -27,15 +27,18 @@ Be sure to find out the language:
 
 -view
 
+
 **OVERVIEW: Generate**
 
 **USAGE:** 
 
 petbook generate <animal> [OPTIONS]
 
+
 **ARGUMENTS:**
 
 <animal> generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'other'.
+
 
 **FLAGS:**
 
@@ -45,15 +48,18 @@ petbook generate <animal> [OPTIONS]
 
 -c, —-cute Generate a cute name.
 
+
 **OVERVIEW: Edit**
 
 **USAGE:** 
 
 petbook edit <pet-name> [OPTIONS]
 
+
 **ARGUMENTS:**
 
 <pet-name> the name of the pet you want to add or delete in your collection, eg. 'edit <pet-name> -i'.
+
 
 **OPTIONS:**
 
@@ -61,11 +67,13 @@ petbook edit <pet-name> [OPTIONS]
 
 -d, --delete Deletes a pet of your choosing from your collection.
 
+
 **OVERVIEW: View**
 
 **USAGE:**
 
 petbook view <collection> [OPTIONS]
+
 
 **ARGUMENTS:**
 
@@ -74,9 +82,3 @@ petbook view <collection> [OPTIONS]
 **FLAG:**
 
 -d, --delete Delete all pets from a collection.
-
-## Contribution
-
-Contributions are welcome! Feel free to open an issue to report bugs, suggest new features or send pull requests.
-
----
