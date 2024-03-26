@@ -40,7 +40,7 @@ petbook generate <animal> [OPTIONS]
 
 **ARGUMENTS:**
 
-<animal> generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'other'.
+<animal> generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'others'.
 
 
 **FLAGS:**
