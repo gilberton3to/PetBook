@@ -1,5 +1,8 @@
 # Pet Name Generator & Collection Manager
 
+<img width="674" alt="Screenshot 2024-03-26 at 10 50 13" src="https://github.com/gilberton3to/petbook/assets/72652382/54a63351-7eb8-4738-a089-9e77ea478bed">
+
+
 This is a command line program (CLI) developed to help you manage your collection of pets, choose the name of your pets by generating
 random names from the category of your choosing. You can add, delete and view all your pets.
 
