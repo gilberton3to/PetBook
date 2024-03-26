@@ -6,52 +6,6 @@
 
 import ArgumentParser
 
-//Cat
-let namesCat: [String: [String]] = [
-    "mitológicos": ["Apolo", "Artemis", "Athena", "Hermes", "Hades", "Persefone", "Zeus", "Hera", "Poseidon", "Medusa"],
-    "próprios": ["Chiquinho", "Sofia", "Jasmin", "Maria", "Pedroca", "Gabrielo", "Ana", "Camile", "John"],
-    "fofos": ["Biscoito", "Bolinha", "Pompom", "Pelúcia", "Fofucho", "Docinho", "Fofura", "Algodão", "Pituca"]
-]
-let randomCatMyth = namesCat["mitológicos"]!.randomElement()!
-let randomCatPerson = namesCat["próprios"]!.randomElement()!
-let randomCatCute = namesCat["fofos"]!.randomElement()!
-//Dog
-let namesDog: [String: [String]] = [
-    "mitológicos": ["Thor", "Freya", "Loki", "Odin", "Nanna", "Fenrir", "Frigg", "Tyr", "Baldur", "Valquiria"],
-    "próprios": ["Max", "Mac", "Luna", "Charlie", "Bella", "Daisy", "Rocky", "Lola", "Bud", "Sophie"],
-    "fofos": ["Bombinha", "Baleia", "Bolota", "Mel", "Chocolate", "Lulu", "Amarelinho", "Peãozinho"]
-]
-let randomDogMyth = namesDog["mitológicos"]!.randomElement()!
-let randomDogPerson = namesDog["próprios"]!.randomElement()!
-let randomDogCute = namesDog["fofos"]!.randomElement()!
-//Fish
-let namesFish: [String: [String]] = [
-    "mitológicos": ["Tritão", "Nereu", "Amphitrite", "Thalasse", "Oceanus", "Nerida", "Ceto", "Dagon", "Undine"],
-    "próprios": ["Homero", "Gineceu", "Nemo", "Marlin", "Phelps", "Christopher", "Leviatã", "Alvin"],
-    "fofos": ["Sereia", "Fonfon", "Lula Molusco", "Coral", "Azulzin", "Estrelinha", "Anêmona"]
-]
-let randomFishMyth = namesFish["mitológicos"]!.randomElement()!
-let randomFishPerson = namesFish["próprios"]!.randomElement()!
-let randomFishCute = namesFish["fofos"]!.randomElement()!
-//Bird
-let namesBird: [String: [String]] = [
-    "mitológicos": ["Icarus", "Fênix", "Sílvia", "Hélio", "Aurora", "Eos", "Zephyr", "Ilíos", "Thalassa"],
-    "próprios": ["Pepe", "Titi", "Simon", "Tinga", "Júlia", "Cooper", "Brutus", "Harpy"],
-    "fofos": ["Pena", "Plumita", "Algodão", "Pipoca", "Cookie", "Pingo", "Tutu", "Avelã"]
-]
-let randomBirdMyth = namesBird["mitológicos"]!.randomElement()!
-let randomBirdPerson = namesBird["próprios"]!.randomElement()!
-let randomBirdCute = namesBird["fofos"]!.randomElement()!
-//Others
-let namesOthers: [String: [String]] = [
-    "mitológicos": ["Cerberus", "Percy", "Griffin", "Pegasus", "Quimera", "Hydra", "Sphynx", "Minotauro", "Ciclope"],
-    "próprios": ["Cassandra", "Bráulio", "Louyse", "Mariane", "Rafa", "Juliano", "Matheus", "Isa", "Edu"],
-    "fofos": ["Ziggy", "Luna", "Pepper", "Zuzu", "Whisker", "Mochi", "Beppo", "ZigZag", "Pippin"]
-]
-let randomOthersMyth = namesOthers["mitológicos"]!.randomElement()!
-let randomOthersPerson = namesOthers["próprios"]!.randomElement()!
-let randomOthersCute = namesOthers["fofos"]!.randomElement()!
-
 struct database: Codable {
     var name: String
 }
@@ -62,14 +16,14 @@ struct PetCollection: Codable {
     mutating func addPet(name: String) {
         let newPet = database(name: name)
         if pets.contains(where: { $0.name == name }) {
-            print("Erro: Esse Pet já existe!")
+            print(catcurious, "\nError: This Pet already exists! 🚫\n")
         } else {
             pets.append(newPet)
             do {
                 try Persistence.saveJson(self, file: "pet-collection.json")
-                print("Pet inserido(a) com sucesso!")
+                print(catheart, "\nPet inserted successfully! ✅\n")
             } catch {
-                print("Erro: não foi possível adicionar o seu Pet!", error)
+                print(catsad, "\nError: Unable to add your Pet! ❌\n", error, "\n")
             }
         }
     }
@@ -78,21 +32,21 @@ struct PetCollection: Codable {
             pets.removeAll { $0.name == name }
             do {
                 try Persistence.saveJson(self, file: "pet-collection.json")
-                print("Pet deletado com sucesso!")
+                print(catnormal, "\nPet deleted successfully! ✅\n")
             } catch {
-                print("Erro: não foi possível deletar o seu Pet!", error)
+                print(catconfused, "\nError: Unable to delete your Pet! ❌\n", error, "\n")
             }
         } else {
-            print("Erro: Esse Pet não existe")
+            print(catstranger, "\nError: This Pet does not exist! 🚫\n")
         }
     }
     mutating func delAllPet() {
         pets.removeAll()
         do {
             try Persistence.saveJson(self, file: "pet-collection.json")
-            print("Todos os Pets foram deletados com sucesso!")
+            print(catdead, "\nAll Pets have been successfully deleted! ✅\n")
         } catch {
-            print("Erro: não foi possível deletar os seus Pets!", error)
+            print(catconfused, "\nError: Unable to delete your Pets! ❌\n", error, "\n")
         }
     }
 
@@ -103,229 +57,201 @@ var petCollection: PetCollection = (try? Persistence.readJson(file: "pet-collect
 @main
 struct PetBook: ParsableCommand {
     static var configuration = CommandConfiguration(
-        abstract: "A Pet Namer and Organizer",
+        abstract: banner,
         usage: "petbook <subcommand> <argument> [OPTIONS]",
         discussion: """
-            This tool will help you manage your collection of pets, choose the name of your pets by generating random names from the category of your choosing. You can add, delete and view all your pets.
+            This tool will help you manage your collection of pets, choose the name of your pets by generating random names from the category of your choosing. You can \u{001B}[38;5;041madd, delete and view\u{001B}[0m all your pets.
             
-            The ‘generate’ subcommand shows you a random name that you can use as your pet’s name, choosing among options such as: mythological, human and cute names.
-
-            The ‘edit’ subcommand adds or deletes a pet in the collection of pets that you can store on the app, by typing the name of the pet you want to add or delete.
-
-            The ‘view’ subcommand shows you the collection of pets you have by typing ‘pets’ or the collection of names the app gives to you by typing ‘animal-names’, and you want to delete all of your pets after checking the collection by choosing the designated delete option.
+            The \u{001B}[38;5;041m‘generate’\u{001B}[0m subcommand shows you a random name that you can use as your pet’s name, choosing among options such as: \u{001B}[38;5;041mmythological, human and cute names.\u{001B}[0m
+            
+            The \u{001B}[38;5;041m‘edit’\u{001B}[0m subcommand adds or deletes a pet in the collection of pets that you can store on the app, by typing the name of the pet you want to \u{001B}[38;5;041madd or delete.\u{001B}[0m
+            
+            The \u{001B}[38;5;041m‘view’\u{001B}[0m subcommand shows your collection of pets by typing \u{001B}[38;5;041m‘pets’\u{001B}[0m or the collection of names for the generator by typing \u{001B}[38;5;041m‘animal-names’.\n⮑\u{001B}[0m  You can too \u{001B}[38;5;041mdelete all\u{001B}[0m of your pets by choosing the option for \u{001B}[38;5;041mdelete all.\u{001B}[0m
+            
             """,
         subcommands: [Generate.self, Edit.self, View.self]
-        )
+    )
     // Criação das coleções de nomes
-}
-
-struct Generate: ParsableCommand {
-    @Argument(help: "generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'other'")
-    var animal: String
-    //
-    @Flag(name: .shortAndLong, help: "Generate a mythological name.")
-    var mythological = false
-    @Flag(name: .shortAndLong, help: "Generate a human name.")
-    var person = false
-    @Flag(name: .shortAndLong, help: "Generate a cute name.")
-    var cute = false
     
-    //Function 1, Cat
-    func typeNameCat() {
+    struct Generate: ParsableCommand {
+        @Argument(help: "generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'other'")
+        var animal: String
+        //
+        @Flag(name: .shortAndLong, help: "Generate a mythological name.")
+        var mythological = false
+        @Flag(name: .shortAndLong, help: "Generate a human name.")
+        var person = false
+        @Flag(name: .shortAndLong, help: "Generate a cute name.")
+        var cute = false
         
-        let allNames: [String] = namesCat.values.flatMap { $0 }
-        
-        let randomCat = allNames.randomElement()!
-        
-        if mythological {
-            print(randomCatMyth)
-        } else if person {
-            print(randomCatPerson)
-        } else if cute {
-            print(randomCatCute)
-        } else {
-            print(randomCat)
-        }
-    }
-    
-    //Function 2, Dog
-    func typeNameDog() {
-        
-        let allNames: [String] = namesDog.values.flatMap { $0 }
-        
-        let randomDog = allNames.randomElement()!
-        
-        if mythological {
-            print(randomDogMyth)
-        } else if person {
-            print(randomDogPerson)
-        } else if cute {
-            print(randomDogCute)
-        } else {
-            print(randomDog)
-        }
-    }
-    
-    //Function 3, Fish
-    func typeNameFish() {
-        
-        let allNames: [String] = namesFish.values.flatMap { $0 }
-        
-        let randomFish = allNames.randomElement()!
-        
-        if mythological {
-            print(randomFishMyth)
-        } else if person {
-            print(randomFishPerson)
-        } else if cute {
-            print(randomFishCute)
-        } else {
-            print(randomFish)
-        }
-    }
-    
-    //Function 4, Bird
-    func typeNameBird() {
-        
-        let allNames: [String] = namesBird.values.flatMap { $0 }
-        
-        let randomBird = allNames.randomElement()!
-        
-        if mythological {
-            print(randomBirdMyth)
-        } else if person {
-            print(randomBirdPerson)
-        } else if cute {
-            print(randomBirdCute)
-        } else {
-            print(randomBird)
-        }
-    }
-    
-    //Function 5, Others
-    func typeNameOthers() {
-        
-        let allNames: [String] = namesOthers.values.flatMap { $0 }
-        
-        let randomOthers = allNames.randomElement()!
-        
-        if mythological {
-            print(randomOthersMyth)
-        } else if person {
-            print(randomOthersPerson)
-        } else if cute {
-            print(randomOthersCute)
-        } else {
-            print(randomOthers)
-        }
-    }
-    
-    func run() {
-        switch animal {
-        case "cat":
-            typeNameCat()
-        case "dog":
-            typeNameDog()
-        case "fish":
-            typeNameFish()
-        case "bird":
-            typeNameBird()
-        case "others":
-            typeNameOthers()
-        default:
-            print("Animal inválido")
-        }
-    }
-}
-struct Edit: ParsableCommand {
-    @Option(name: .shortAndLong, help: "Inserts a pet (name) to your collection")
-    var insert: String?
-    @Option(name: .shortAndLong, help: "Deletes a pet (name) from your collection")
-    var delete: String?
-    
-    func run() throws {
-        guard insert == nil else {
-            print(#"""
-                             __
-                            /  \
-                           / ..|\
-                          (_\  |_)
-                          /  \@'
-                         /     \
-                    _   /  `   |
-                    \\/  \  | _\
-                     \   /_ || \\_
-                      \____)|_) \_)
-                """#)
-            petCollection.addPet(name: insert!)
-            return
-        }
-        guard delete == nil else {
-            petCollection.delPet(name: delete!)
-            print(#"""
-                             __
-                            /  \
-                           / ..|\
-                          (_\  |_)
-                          /  \@'
-                         /     \
-                    _   /  `   |
-                    \\/  \  | _\
-                     \   /_ || \\_
-                      \____)|_) \_)
-                  """#)
-            return
-        }
-        print("Por favor, especifique uma das opções: inserir ou deletar")
-    }
-
-}
-struct View: ParsableCommand {
-    @Argument(help: "Shows your collection of pets or the collection of the names the app can give you. possibilities: 'pets' or 'animal-names'.")
-    var collection: String
-    //
-    @Flag(name: .shortAndLong, help: "Deletes all pets from your collection")
-    var delete = false
-    
-    func allNames() {
-        //cat
-        let allNamesCat: [String] = namesCat.values.flatMap { $0 }
-        //dog
-        let allNamesDog: [String] = namesDog.values.flatMap { $0 }
-        //fish
-        let allNamesFish: [String] = namesFish.values.flatMap { $0 }
-        //bird
-        let allNamesBird: [String] = namesBird.values.flatMap { $0 }
-        //others
-        let allNamesOthers: [String] = namesOthers.values.flatMap { $0 }
-        
-        print("Gatos:", allNamesCat, "Cachorros:", allNamesDog, "Passaros:", allNamesBird, "Peixes:", allNamesFish, "Variados:", allNamesOthers, separator: "\n\n")
-    }
-    
-    func run() throws {
-        if collection == "pets" {
-            if delete == true {
-                petCollection.delAllPet()
+        //Function 1, Cat
+        func typeNameCat() {
+            
+            let allNames: [String] = namesCat.values.flatMap { $0 }
+            
+            let randomCat = allNames.randomElement()!
+            
+            if mythological {
+                print("\u{001B}[38;5;228m", randomCatDesign, "\n\n", randomCatMyth, "\n\u{001B}[0m")
+            } else if person {
+                print("\u{001B}[38;5;228m", randomCatDesign, "\n\n", randomCatPerson, "\n\u{001B}[0m")
+            } else if cute {
+                print("\u{001B}[38;5;228m", randomCatDesign, "\n\n", randomCatCute, "\n\u{001B}[0m")
             } else {
-                print(petCollection.pets) }
-        } else if collection == "animal-names"{
-            allNames()
+                print("\u{001B}[38;5;228m", randomCatDesign, "\n\n", randomCat, "\n\u{001B}[0m")
+            }
+        }
+        
+        //Function 2, Dog
+        func typeNameDog() {
+            
+            let allNames: [String] = namesDog.values.flatMap { $0 }
+            
+            let randomDog = allNames.randomElement()!
+            
+            if mythological {
+                print("\u{001B}[38;5;217m", randomDogDesign, "\n\n", randomDogMyth, "\n\u{001B}[0m")
+            } else if person {
+                print("\u{001B}[38;5;217m", randomDogDesign, "\n\n", randomDogPerson, "\n\u{001B}[0m")
+            } else if cute {
+                print("\u{001B}[38;5;217m", randomDogDesign, "\n\n", randomDogCute, "\n\u{001B}[0m")
+            } else {
+                print("\u{001B}[38;5;217m", randomDogDesign, "\n\n", randomDog, "\n\u{001B}[0m")
+            }
+        }
+        
+        //Function 3, Fish
+        func typeNameFish() {
+            
+            let allNames: [String] = namesFish.values.flatMap { $0 }
+            
+            let randomFish = allNames.randomElement()!
+            
+            if mythological {
+                print("\u{001B}[38;5;123m", randomFishDesign, "\n\n", randomFishMyth, "\n\u{001B}[0m")
+            } else if person {
+                print("\u{001B}[38;5;123m", randomFishDesign, "\n\n", randomFishPerson, "\n\u{001B}[0m")
+            } else if cute {
+                print("\u{001B}[38;5;123m", randomFishDesign, "\n\n", randomFishCute, "\n\u{001B}[0m")
+            } else {
+                print("\u{001B}[38;5;123m", randomFishDesign, "\n\n", randomFish, "\n\u{001B}[0m")
+            }
+        }
+        
+        //Function 4, Bird
+        func typeNameBird() {
+            
+            let allNames: [String] = namesBird.values.flatMap { $0 }
+            
+            let randomBird = allNames.randomElement()!
+            
+            if mythological {
+                print("\u{001B}[38;5;120m", randomBirdDesign, "\n\n", randomBirdMyth, "\n\u{001B}[0m")
+            } else if person {
+                print("\u{001B}[38;5;120m", randomBirdDesign, "\n\n", randomBirdPerson, "\n\u{001B}[0m")
+            } else if cute {
+                print("\u{001B}[38;5;120m", randomBirdDesign, "\n\n", randomBirdCute, "\n\u{001B}[0m")
+            } else {
+                print("\u{001B}[38;5;120m", randomBirdDesign, "\n\n", randomBird, "\n\u{001B}[0m")
+            }
+        }
+        
+        //Function 5, Others
+        func typeNameOthers() {
+            
+            let allNames: [String] = namesOthers.values.flatMap { $0 }
+            
+            let randomOthers = allNames.randomElement()!
+            
+            if mythological {
+                print("\u{001B}[38;5;207m", randomDesigns, "\n\n", randomOthersMyth, "\n\u{001B}[0m")
+            } else if person {
+                print("\u{001B}[38;5;207m", randomDesigns, "\n\n", randomOthersPerson, "\n\u{001B}[0m")
+            } else if cute {
+                print("\u{001B}[38;5;207m", randomDesigns, "\n\n", randomOthersCute, "\n\u{001B}[0m")
+            } else {
+                print("\u{001B}[38;5;207m", randomDesigns, "\n\n", randomOthers, "\n\u{001B}[0m")
+            }
+        }
+        
+        func run() {
+            switch animal {
+            case "cat":
+                typeNameCat()
+            case "dog":
+                typeNameDog()
+            case "fish":
+                typeNameFish()
+            case "bird":
+                typeNameBird()
+            case "others":
+                typeNameOthers()
+            default:
+                print(invalidanimal, "\n\n", "Invalid animal! 🚫\n")
+            }
+        }
+    }
+    struct Edit: ParsableCommand {
+        @Option(name: .shortAndLong, help: "Inserts a pet to your collection")
+        var insert: String?
+        @Option(name: .shortAndLong, help: "Deletes a pet from your collection")
+        var delete: String?
+        
+        func run() throws {
+            guard insert == nil else {
+                petCollection.addPet(name: insert!)
+                return
+            }
+            guard delete == nil else {
+                petCollection.delPet(name: delete!)
+                return
+            }
+            print("\nPlease specify one of the options: insert(-i) or delete(-d) ⚠️")
+        }
+        
+    }
+    struct View: ParsableCommand {
+        @Argument(help: "Shows your collection of pets or the collection of the names the app can give you. possibilities: 'pets' or 'animal-names'.")
+        var collection: String
+        //
+        @Flag(name: .shortAndLong, help: "Deletes all pets from your collection")
+        var delete = false
+        
+        func allNames() {
+            //cat
+            let allNamesCat: [String] = namesCat.values.flatMap { $0 }
+            let onlyCats = allNamesCat.joined(separator: "\n")
+            //dog
+            let allNamesDog: [String] = namesDog.values.flatMap { $0 }
+            let onlyDogs = allNamesDog.joined(separator: "\n")
+            //fish
+            let allNamesFish: [String] = namesFish.values.flatMap { $0 }
+            let onlyFishes = allNamesFish.joined(separator: "\n")
+            //bird
+            let allNamesBird: [String] = namesBird.values.flatMap { $0 }
+            let onlyBirds = allNamesBird.joined(separator: "\n")
+            //others
+            let allNamesOthers: [String] = namesOthers.values.flatMap { $0 }
+            let onlyOthers = allNamesOthers.joined(separator: "\n")
+            
+            print("\u{001B}[38;5;228m", randomCatDesign, "🐱 Cats:", onlyCats, "\u{001B}[38;5;217m", randomDogDesign, "🐶 Dogs:", onlyDogs, "\u{001B}[38;5;123m", randomFishDesign, "🐠 Fishes:", onlyFishes, "\u{001B}[38;5;120m", randomBirdDesign, "🦜 Birds:", onlyBirds, "\u{001B}[38;5;207m", randomDesigns, "🎲 Varied:", onlyOthers, "", separator: "\n\n")
+        }
+        
+        func run() throws {
+            //to print only the names of the user's pets
+            let allUserPets = petCollection.pets.map { $0.name }
+            let onlyPets = allUserPets.joined(separator: "\n ")
+            //end
+            if collection == "pets" {
+                if delete == true {
+                    petCollection.delAllPet()
+                } else {
+                    print("\n", petcollectiondesign, "\n\u{001B}[38;5;041m", onlyPets, "\u{001B}[0m\n") }
+            } else if collection == "animal-names"{
+                allNames()
+            } else {
+                print("\n", invalidanimal, "\n\nError: invalid option, choose 'pets' or 'animal-names' to continue! ⚠️\n")
+            }
         }
     }
 }
-
-//        for numero in numeros {
-//            if numero % 2 == 0 {
-//                pares.append(numero)
-//            }
-//        }
-
-//        var pares = numeros.filter { numero in
-//            return numero % 2 == 0
-//        }
-
-//        var pares = numeros.filter { numero in numero % 2 == 0 }
-
-//        var pares = numeros.filter { return $0 % 2 == 0 }
-
-//        var pares = numeros.filter { $0 % 2 == 0 }
