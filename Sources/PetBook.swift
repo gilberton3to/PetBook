@@ -74,7 +74,7 @@ struct PetBook: ParsableCommand {
     // Criação das coleções de nomes
     
     struct Generate: ParsableCommand {
-        @Argument(help: "generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'other'")
+        @Argument(help: "generates the name of an animal, possibilities: 'cat', 'dog', 'bird', 'fish' or 'others'")
         var animal: String
         //
         @Flag(name: .shortAndLong, help: "Generate a mythological name.")
